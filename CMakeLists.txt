@@ -11,7 +11,7 @@ add_subdirectory(util)
 zephyr_library_link_libraries(MCUMGR)
 
 target_link_libraries(MCUMGR INTERFACE
-  zephyr_interface
+  ${IMAGE}zephyr_interface
   TINYCBOR
   )
 
