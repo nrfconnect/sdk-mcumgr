@@ -17,29 +17,27 @@
  * under the License.
  */
 
-#ifndef H_FS_MGMT_CONFIG_
-#define H_FS_MGMT_CONFIG_
+#include "omp_svr.h"
 
-#if defined MYNEWT
-
-#include "syscfg/syscfg.h"
-
-#define FS_MGMT_DL_CHUNK_SIZE   MYNEWT_VAL(FS_MGMT_DL_CHUNK_SIZE)
-#define FS_MGMT_PATH_SIZE       MYNEWT_VAL(FS_MGMT_PATH_SIZE)
-#define FS_MGMT_UL_CHUNK_SIZE   MYNEWT_VAL(FS_MGMT_UL_CHUNK_SIZE)
-
-#elif defined __ZEPHYR__
-
-#define FS_MGMT_DL_CHUNK_SIZE   CONFIG_FS_MGMT_DL_CHUNK_SIZE
-#define FS_MGMT_PATH_SIZE       CONFIG_FS_MGMT_PATH_SIZE
-#define FS_MGMT_UL_CHUNK_SIZE   CONFIG_FS_MGMT_UL_CHUNK_SIZE
-
-#else
-
-/* No direct support for this OS.  The application needs to define the above
- * settings itself.
+/**
+ * Utility function to log an array of bytes.
  */
+void
+print_bytes(const uint8_t *bytes, int len)
+{
+    int i;
 
-#endif
+    for (i = 0; i < len; i++) {
+        MODLOG_DFLT(INFO, "%s0x%02x", i != 0 ? ":" : "", bytes[i]);
+    }
+}
 
-#endif
+void
+print_addr(const void *addr)
+{
+    const uint8_t *u8p;
+
+    u8p = addr;
+    MODLOG_DFLT(INFO, "%02x:%02x:%02x:%02x:%02x:%02x",
+                u8p[5], u8p[4], u8p[3], u8p[2], u8p[1], u8p[0]);
+}

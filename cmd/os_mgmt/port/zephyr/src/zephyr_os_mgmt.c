@@ -67,7 +67,7 @@ os_mgmt_impl_task_info(int idx, struct os_mgmt_task_info *out_info)
     out_info->oti_prio = thread->base.prio;
     out_info->oti_taskid = idx;
     out_info->oti_state = thread->base.thread_state;
-#ifdef THREAD_STACK_INFO
+#ifdef CONFIG_THREAD_STACK_INFO
     out_info->oti_stksize = thread->stack_info.size / 4;
 #endif
 
@@ -91,6 +91,6 @@ zephyr_os_mgmt_reset_cb(struct k_timer *timer)
 int
 os_mgmt_impl_reset(unsigned int delay_ms)
 {
-    k_timer_start(&zephyr_os_mgmt_reset_timer, K_MSEC(delay_ms), 0);
+    k_timer_start(&zephyr_os_mgmt_reset_timer, K_MSEC(delay_ms), K_NO_WAIT);
     return 0;
 }
